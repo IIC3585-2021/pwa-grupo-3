@@ -1,12 +1,29 @@
+const admin = require('firebase-admin');
+const serviceAccount = require('../../grupo-03-b13311cf3167.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+const db = admin.firestore();
+const docRef = db.collection('tweets');
 const container = document.querySelector(".container")
 const tweets = [
-  { user: "", content: "", likes: 0 },
+  { user: "yo", content: "Hola denisse, como estás? ", likes: 10000000000 },
 ]
 
+const createTweets = async () => {
+  const data = await docRef.add(tweets[0])
+  console.log(data.id)
+};
+createTweets();
+
 /** Función que muestra los tweets  */
-const showTweets = () => {
+const showTweets = async () => {
     let output = ""
-    tweets.forEach(
+    const data = await docRef.get()
+    console.log("Acá, ", data)
+    data.forEach(
       ({ user,  content, likes }) =>
         (output += `
                 <div class="card">
@@ -19,7 +36,7 @@ const showTweets = () => {
     container.innerHTML = output
   }
   
-  document.addEventListener("DOMContentLoaded", showCoffees)
+  document.addEventListener("DOMContentLoaded", showTweets)
 
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function() {
@@ -29,3 +46,4 @@ const showTweets = () => {
         .catch(err => console.log("service worker not registered", err))
     })
   }
+
