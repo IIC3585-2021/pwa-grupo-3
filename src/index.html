@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -26,71 +27,74 @@
     -->
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
 
-  </head>
-  <body>
+</head>
+
+<body>
     <main>
-      <nav>
-        <h1>Twitter - Grupo 3</h1>
-      </nav>
-      <div> 
-        <label for="name"> Nombre:</label>
-        <input id="name" type="text"/>
-        <label for="text"> Tweet:</label>
-        <input id="text" type="text"/>
-        <button id="addTweetBtn">Tweetear</button>
-      </div>
-      <div class="newTweets"></div>
-      <div class="container"></div>
+        <nav>
+            <h1>Twitter - Grupo 3</h1>
+        </nav>
+        <div>
+            <label for="name"> Nombre:</label>
+            <input id="name" type="text" />
+            <label for="text"> Tweet:</label>
+            <input id="text" type="text" />
+            <button id="addTweetBtn">Tweetear</button>
+        </div>
+        <div class="newTweets"></div>
+        <div class="container"></div>
     </main>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        const firebaseConfig = {
-        apiKey: "AIzaSyBp6WrT7tko_hLEY8MaGudwQtAVTQa-i3A",
-        authDomain: "prueba-pwa-d3365.firebaseapp.com",
-        databaseURL: "https://prueba-pwa-d3365-default-rtdb.firebaseio.com",
-        projectId: "prueba-pwa-d3365",
-        storageBucket: "prueba-pwa-d3365.appspot.com",
-        messagingSenderId: "238323276508",
-        appId: "1:238323276508:web:e82da11ddc9ff3dd6d3219"
-        };
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadEl = document.querySelector('#load');
+            // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+            // // The Firebase SDK is initialized and available here!
+            const firebaseConfig = {
+                apiKey: "AIzaSyBp6WrT7tko_hLEY8MaGudwQtAVTQa-i3A",
+                authDomain: "prueba-pwa-d3365.firebaseapp.com",
+                databaseURL: "https://prueba-pwa-d3365-default-rtdb.firebaseio.com",
+                projectId: "prueba-pwa-d3365",
+                storageBucket: "prueba-pwa-d3365.appspot.com",
+                messagingSenderId: "238323276508",
+                appId: "1:238323276508:web:e82da11ddc9ff3dd6d3219"
+            };
 
-        firebase.initializeApp(firebaseConfig);
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
+            firebase.initializeApp(firebaseConfig)
+                //
+                // firebase.auth().onAuthStateChanged(user => { });
+                // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+                // firebase.firestore().doc('/foo/bar').get().then(() => { });
+                // firebase.functions().httpsCallable('yourFunction')().then(() => { });
+                // firebase.messaging().requestPermission().then(() => { });
+                // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+                // firebase.analytics(); // call to activate
+                // firebase.analytics().logEvent('tutorial_completed');
+                // firebase.performance(); // call to activate
+                //
+                // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+            try {
+                let app = firebase.app();
+                let features = [
+                    'auth',
+                    'database',
+                    'firestore',
+                    'functions',
+                    'messaging',
+                    'storage',
+                    'analytics',
+                    'remoteConfig',
+                    'performance',
+                ].filter(feature => typeof app[feature] === 'function');
+                loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
+            } catch (e) {
+                console.error(e);
+                loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+            }
+        });
     </script>
     <script type="module" src="js/app.js"></script>
-  </body>
+</body>
+
 </html>
