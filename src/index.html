@@ -34,12 +34,17 @@
         <nav>
             <h1>Twitter - Grupo 3</h1>
         </nav>
-        <div>
-            <label for="name"> Nombre:</label>
-            <input id="name" type="text" />
-            <label for="text"> Tweet:</label>
-            <input id="text" type="text" />
-            <button id="addTweetBtn">Tweetear</button>
+        <div class="contentContainer">
+
+            <div class="twitter boxContainer">
+                <label class="twitter tweetHeader">Nombre <input id="name" type="text" /></label>
+                <span class="close"></span>
+                <div class="lineSplit"></div>
+                <textarea class="messageBox" id="text" placeholder="What's happening?"></textarea>
+                <label class="wordCounter" id="wordCounter">140</label>
+                <input type="button" class="postButton" id="addTweetBtn" value="Tweet" />
+            </div>
+
         </div>
         <div class="newTweets"></div>
         <div class="container"></div>
@@ -60,19 +65,19 @@
             };
 
 
-            firebase.initializeApp(firebaseConfig)
-                //
-                // firebase.auth().onAuthStateChanged(user => { });
-                // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-                // firebase.firestore().doc('/foo/bar').get().then(() => { });
-                // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-                // firebase.messaging().requestPermission().then(() => { });
-                // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-                // firebase.analytics(); // call to activate
-                // firebase.analytics().logEvent('tutorial_completed');
-                // firebase.performance(); // call to activate
-                //
-                // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+            if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+            //
+            // firebase.auth().onAuthStateChanged(user => { });
+            // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+            // firebase.firestore().doc('/foo/bar').get().then(() => { });
+            // firebase.functions().httpsCallable('yourFunction')().then(() => { });
+            // firebase.messaging().requestPermission().then(() => { });
+            // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+            // firebase.analytics(); // call to activate
+            // firebase.analytics().logEvent('tutorial_completed');
+            // firebase.performance(); // call to activate
+            //
+            // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
 
             try {
                 let app = firebase.app();
