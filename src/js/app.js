@@ -1,39 +1,52 @@
-const admin = require('firebase-admin');
-const serviceAccount = require('../../grupo-03-b13311cf3167.json');
+function writeTweet(user, content) {
+  console.log("writing data...")
+  firebase.database().ref('tweets').push({
+    user: user,
+    content: content,
+    likes: 0
+  });
+}
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+const dbRef = firebase.database().ref();
 
-const db = admin.firestore();
-const docRef = db.collection('tweets');
+// dbRef.child("tweets").get().then((snapshot) => {
+//   if (snapshot.exists()) {
+//     console.log(snapshot.val());
+//   } else {
+//     console.log("No data available");
+//   }
+// }).catch((error) => {
+//   console.error(error);
+// });
+
+writeTweet("Maca", "Hola denisse, como estás? ")
+
 const container = document.querySelector(".container")
-const tweets = [
-  { user: "yo", content: "Hola denisse, como estás? ", likes: 10000000000 },
-]
-
-const createTweets = async () => {
-  const data = await docRef.add(tweets[0])
-  console.log(data.id)
-};
-createTweets();
 
 /** Función que muestra los tweets  */
 const showTweets = async () => {
     let output = ""
-    const data = await docRef.get()
-    console.log("Acá, ", data)
-    data.forEach(
-      ({ user,  content, likes }) =>
-        (output += `
-                <div class="card">
-                  <h2 class="card-user">${user}</h3>
-                  <p class="card-content">${content}</h1>
-                  <a class="card-likes" href="#">${likes}</a>
-                </div>
-                `)
-    )
-    container.innerHTML = output
+    dbRef.child("tweets").get().then((snapshot) => {
+      if (snapshot.exists()) {
+        let data = snapshot.val();
+        console.log(data);
+        const dataKeys = Object.keys(data)
+        dataKeys.forEach((id) =>
+            (output += `
+                    <div class="card">
+                      <h2 class="card-user">${data[id].user}</h3>
+                      <p class="card-content">${data[id].content}</h1>
+                      <a class="card-likes" href="#">${data[id].likes}</a>
+                    </div>
+                    `)
+        )
+        container.innerHTML = output
+          } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
   }
   
   document.addEventListener("DOMContentLoaded", showTweets)
