@@ -19,10 +19,13 @@ const dbRef = firebase.database().ref();
 //   console.error(error);
 // });
 
-writeTweet("Maca", "Hola denisse, como estás? ")
+//writeTweet("Maca", "Hola denisse, como estás? ")
 
 const container = document.querySelector(".container")
-
+const newTweets = document.querySelector(".newTweets")
+const addTweetBtn = document.getElementById('addTweetBtn')
+let username = document.getElementById('name')
+let text = document.getElementById('text')
 /** Función que muestra los tweets  */
 const showTweets = async () => {
     let output = ""
@@ -60,3 +63,18 @@ const showTweets = async () => {
     })
   }
 
+  addTweetBtn.onclick = () => {
+    let user = username.value;
+    let content = text.value;
+    console.log(user);
+    console.log(content);
+    writeTweet(user, content);
+    let output = `
+                    <div class="card">
+                      <h2 class="card-user">${user}</h3>
+                      <p class="card-content">${content}</h1>
+                      <a class="card-likes" href="#">0</a>
+                    </div>
+                    `
+    container.innerHTML = output + container.innerHTML
+  }
