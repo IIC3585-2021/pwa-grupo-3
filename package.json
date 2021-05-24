@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "firebase": "^8.6.2",
+    "firebase-admin": "^9.8.0"
+  },
+  "name": "pwa-grupo-3",
+  "description": "* Macarena Concha\r * Cristóbal Muñoz\r * Denisse Ogaz",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IIC3585-2021/pwa-grupo-3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IIC3585-2021/pwa-grupo-3/issues"
+  },
+  "homepage": "https://github.com/IIC3585-2021/pwa-grupo-3#readme"
+}
