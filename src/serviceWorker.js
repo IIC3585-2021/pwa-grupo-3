@@ -1,17 +1,12 @@
-const staticTwitterDev = "dev-coffee-site-v1"
+// importScripts("https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js");
+const staticTwitterDev = "dev-coffee-site-v1";
+const dynamicTwitterDev = "dynamic-v1";
 const assets = [
-    "/",
-    "/index.html",
-    "/css/style.css",
-    "/js/app.js",
+    "./",
+    "./index.html",
+    "./css/style.css",
+    "./js/app.js",
 ]
-
-// importScripts('https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js');
-// importScripts('https://www.gstatic.com/firebasejs/8.4.3/firebase-messaging.js');
-
-// const messaging = firebase.messaging();
-
-
 
 self.addEventListener("install", installEvent => {
     installEvent.waitUntil(
@@ -21,58 +16,44 @@ self.addEventListener("install", installEvent => {
     )
 })
 
-self.addEventListener("fetch", fetchEvent => {
-    fetchEvent.respondWith(
-        caches.match(fetchEvent.request).then(res => {
-            return res || fetch(fetchEvent.request)
+
+self.addEventListener("fetch", (e) => {
+    e.respondWith(
+        caches.match(e.request).then((r) => {
+            // console.log('[Servicio Worker] Obteniendo recurso: ' + e.request.url);
+            return r || fetch(e.request).then((response) => {
+                return caches.open(staticTwitterDev).then((cache) => {
+                    // console.log('[Servicio Worker] Almacena el nuevo recurso: ' + e.request.url);
+                    cache.put(e.request, response.clone());
+                    return response;
+                });
+            });
         })
-    )
-})
-
-// messaging.onBackgroundMessage((payload) => {
-//     console.log('[firebase-messaging-sw.js] Received background message ', payload);
-//     // Customize notification here
-//     const notificationTitle = 'Background Message Title';
-//     const notificationOptions = {
-//         body: 'Background Message body.',
-//     };
-
-//     self.registration.showNotification(notificationTitle,
-//         notificationOptions);
-// });
-
-importScripts('https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/8.6.1/firebase-messaging.js');
-
-
-firebase.initializeApp({
-    apiKey: "AIzaSyBp6WrT7tko_hLEY8MaGudwQtAVTQa-i3A",
-    projectId: "prueba-pwa-d3365",
-    messagingSenderId: "238323276508",
-    appId: "1:238323276508:web:e82da11ddc9ff3dd6d3219"
+    );
 });
 
-// Retrieve an instance of Firebase Messaging so that it can handle background
-// messages.
-const messaging = firebase.messaging();
-// console.log(messaging);
-
-messaging.getToken({ vapidKey: "BEUKuGmy_NWpt1GXmKqOByhDt6XFTK4EQwzjd3AXBw5AHbx2eC_AbwStERS11ZPBb4crk-pqn7DyC9v0mv5KCPo" }).then((token) => console.log(token));
-
-
-messaging.onBackgroundMessage((payload) => {
-    console.log('[firebase-messaging-sw.js] Received background message ', payload);
-    // Customize notification here
-    const notificationTitle = 'Background Message Title';
-    const notificationOptions = {
-        body: 'Background Message body.',
-    };
-
-    self.registration.showNotification(notificationTitle,
-        notificationOptions);
+self.addEventListener('activate', (e) => {
+    e.waitUntil(
+        caches.keys().then((keyList) => {
+            return Promise.all(keyList.map((key) => {
+                return caches.delete(key);
+            }));
+        })
+    );
 });
 
-// messaging.onMessage((payload) => {
-//     console.log('Message received. ', payload);
-//     // ...
-// });
+self.addEventListener('push', e => {
+    let data = { title: "New", content: "Something new happened!" };
+    if (e.data) {
+        data = JSON.parse(e.data.text());
+    }
+
+    const options = {
+        body: data.content,
+        // icon: "/src/images/android-icon-48-48.png",
+    }
+
+    e.waitUntil(
+        self.registration.showNotification(data.title, options)
+    );
+});
